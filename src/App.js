@@ -1,6 +1,7 @@
 import Header from './components/Header';
-import Footer from './components/Footer';
+import OrderStatus from './components/OrderStatus';
 import ShoppingCart from './components/ShoppingCart';
+import Footer from './components/Footer';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -26,6 +27,7 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <Header />
+      <OrderStatus />
       <ShoppingCart />
       <Footer/>
     </div>
