@@ -63,7 +63,7 @@ const ShoppingCart = () => {
           {cartItmes && cartItmes.length > 1 ? 
             <ShoppingCartItem cartItmes={cartItmes}/>
           :
-            <StyledEmptyCart>Your cart is empty <a href="#">continue shopping</a></StyledEmptyCart>
+            <StyledEmptyCart>Your cart is empty <a href="https://www.w3.org/Provider/Style/dummy.html">continue shopping</a></StyledEmptyCart>
           }
         </StyledShoppingCartBody>
       </StyledShoppingCart>
