@@ -19,6 +19,7 @@ const StyledLinkIcon = styled(StyledLink)`
   height: 20px;
   width: 20px;
   border-left: solid 1px #fff;
+  box-sizing: content-box;
 `;
 
 const SubNav = () => {

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ShoppingCartItem from './ShoppingCartItem';
 import StyledContainer from '../StyledContainer';
+import DeliveryAvailability from './DeliveryAvailability';
+import OrderSummary from './OrderSummary';
 import styled from 'styled-components';
 import data from './data.json';
 
@@ -39,6 +41,12 @@ const StyledEmptyCart = styled.div`
   a {
     color: #131F97;
   }
+`;
+
+const StyledShoppingCartBottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
 `;
 
 const ShoppingCart = () => {
@@ -100,6 +108,31 @@ const ShoppingCart = () => {
     }));
   }
 
+  const onPincodeInputChange = (pincode) => {
+    const availablePincodes = Object.keys(cartData.pincode);
+    const isValidPincode = availablePincodes.includes(pincode);
+    let isCashOnDelivery;
+    let estimatedDays;
+    let freeDelivery;
+    if (isValidPincode) {
+      freeDelivery = cartData.pincode[pincode].deliveryPrice === 0;
+      isCashOnDelivery = cartData.pincode[pincode].cashOnDelivery;
+      estimatedDays = cartData.pincode[pincode].estimatedDays;
+    }
+
+    const deliveryInfo = {
+      freeDelivery,
+      isValidPincode,
+      isCashOnDelivery,
+      estimatedDays
+    }
+    setCartData((state) => ({
+      ...state,
+      deliveryPin: pincode,
+      deliveryInfo
+    }));
+  }
+
   useEffect(() => {
     let products = data.products;
     const updatedProducts = products.map((product) =>
@@ -109,8 +142,20 @@ const ShoppingCart = () => {
       total: product.price
     })
     )
-    data.products = updatedProducts;
-    setCartData(data);
+    setCartData({
+      ...data,
+      products: updatedProducts,
+      deliveryPin: "",
+      deliveryInfo: {
+        freeDelivery: false,
+        isValidPincode: false,
+        isCashOnDelivery: false,
+        estimatedDays: {
+          min: 0,
+          max: 0
+        }
+      }
+    });
   }, []);
 
   return (
@@ -125,12 +170,21 @@ const ShoppingCart = () => {
         </StyledShoppingCartHeader>
         <StyledShoppingCartBody>
           {cartData && cartData.products && cartData.products.length > 1 ?
-            <ShoppingCartItem
-              cartItmes={cartData.products}
-              onRemoveProduct={onRemoveProduct}
-              onUpdateQuantity={onUpdateQuantity}
-              onQuantityIncrement={onQuantityIncrement}
-              onQuantityDecrement={onQuantityDecrement} />
+            <>
+              <ShoppingCartItem
+                cartItmes={cartData.products}
+                onRemoveProduct={onRemoveProduct}
+                onUpdateQuantity={onUpdateQuantity}
+                onQuantityIncrement={onQuantityIncrement}
+                onQuantityDecrement={onQuantityDecrement} />
+              <StyledShoppingCartBottom>
+                <DeliveryAvailability
+                  deliveryPin={cartData.deliveryPin}
+                  deliveryInfo={cartData.deliveryInfo}
+                  onPincodeInputChange={onPincodeInputChange} />
+                <OrderSummary />
+              </StyledShoppingCartBottom>
+            </>
             :
             <StyledEmptyCart>Your cart is empty <a href="https://www.w3.org/Provider/Style/dummy.html">continue shopping</a></StyledEmptyCart>
           }
