@@ -42,14 +42,78 @@ const StyledEmptyCart = styled.div`
 `;
 
 const ShoppingCart = () => {
+  const [cartData, setCartData] = useState();
 
-  const [cartItmes, setCartItems] = useState([]);
+  const onRemoveProduct = (id) => {
+    const updatedProducts = cartData.products.filter((product) => product.id !== id);
+    setCartData((state) => ({
+      ...state,
+      products: updatedProducts
+    }));
+  };
+
+  const onUpdateQuantity = (id, qty) => {
+    let quantity = Number(qty);
+    const updatedProductList = cartData.products.map((product) => {
+      if (product.id === id) {
+        product.quantity = quantity;
+        product.total = product.price * quantity;
+      }
+      return product;
+    });
+
+    setCartData((state) => ({
+      ...state,
+      products: updatedProductList
+    }));
+  }
+
+  const onQuantityIncrement = (id) => {
+    const updatedProductList = cartData.products.map((product) => {
+      if (product.id === id) {
+        const quantity = product.quantity + 1.
+        product.quantity = quantity;
+        product.total = product.price * quantity;
+      }
+      return product;
+    });
+
+    setCartData((state) => ({
+      ...state,
+      products: updatedProductList
+    }));
+  }
+
+  const onQuantityDecrement = (id) => {
+    const updatedProductList = cartData.products.map((product) => {
+      if (product.id === id) {
+        const quantity = product.quantity !== 0 ? product.quantity - 1 : 0;
+        product.quantity = quantity;
+        product.total = product.price * quantity;
+      }
+      return product;
+    });
+
+    setCartData((state) => ({
+      ...state,
+      products: updatedProductList
+    }));
+  }
 
   useEffect(() => {
-    setCartItems(data.products);
+    let products = data.products;
+    const updatedProducts = products.map((product) =>
+    ({
+      ...product,
+      quantity: 1,
+      total: product.price
+    })
+    )
+    data.products = updatedProducts;
+    setCartData(data);
   }, []);
 
-  return(
+  return (
     <StyledContainer>
       <StyledShoppingCartTitle>Shopping cart</StyledShoppingCartTitle>
       <StyledShoppingCart>
@@ -60,9 +124,14 @@ const ShoppingCart = () => {
           <StyledShoppingCartHeaderItem> Subtotal </StyledShoppingCartHeaderItem>
         </StyledShoppingCartHeader>
         <StyledShoppingCartBody>
-          {cartItmes && cartItmes.length > 1 ? 
-            <ShoppingCartItem cartItmes={cartItmes}/>
-          :
+          {cartData && cartData.products && cartData.products.length > 1 ?
+            <ShoppingCartItem
+              cartItmes={cartData.products}
+              onRemoveProduct={onRemoveProduct}
+              onUpdateQuantity={onUpdateQuantity}
+              onQuantityIncrement={onQuantityIncrement}
+              onQuantityDecrement={onQuantityDecrement} />
+            :
             <StyledEmptyCart>Your cart is empty <a href="https://www.w3.org/Provider/Style/dummy.html">continue shopping</a></StyledEmptyCart>
           }
         </StyledShoppingCartBody>
