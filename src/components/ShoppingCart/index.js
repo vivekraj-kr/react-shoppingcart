@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Notification from '../Notification'
 import ShoppingCartItem from './ShoppingCartItem';
 import StyledContainer from '../StyledContainer';
 import DeliveryAvailability from './DeliveryAvailability';
@@ -63,8 +64,8 @@ const ShoppingCart = () => {
   }
 
   const getOrderSummary = (subtotal = 0, discount, deliveryCost = 0) => {
-    const percentage = discount.discountPercentage;
-    const discountPrice =  subtotal > discount.minTotal ? (subtotal / percentage) : 0;
+    const percentage = discount?.discountPercentage;
+    const discountPrice = subtotal > discount?.minTotal ? (subtotal / percentage) : 0;
     const grantTotal = subtotal - discountPrice + deliveryCost;
     return {
       discountPrice,
@@ -147,7 +148,7 @@ const ShoppingCart = () => {
   }
 
   const onPincodeInputChange = (pincode) => {
-    const availablePincodes = Object.keys(cartData.pincode);
+    const availablePincodes = cartData.pincode && Object.keys(cartData.pincode) || [];
     const isValidPincode = availablePincodes.includes(pincode);
     let isCashOnDelivery;
     let estimatedDays;
@@ -188,12 +189,13 @@ const ShoppingCart = () => {
 
     const subtotal = getSubTotal(updatedProducts);
     const orderSummary = getOrderSummary(subtotal, data.discount, 0);
-
+    const isShowNotifcation = ('discount' in data);
     setCartData({
       ...data,
       products: updatedProducts,
       orderSummary,
       deliveryPin: "",
+      isShowNotifcation,
       deliveryInfo: {
         freeDelivery: false,
         isValidPincode: false,
@@ -208,6 +210,14 @@ const ShoppingCart = () => {
 
   return (
     <StyledContainer>
+      {cartData && cartData.isShowNotifcation ?
+        <Notification>
+          <span>
+            Shop for ${cartData.discount.minTotal} or more and get {cartData.discount.discountPercentage}% discount on your order
+          </span>
+        </Notification>
+        : null
+      }
       <StyledShoppingCartTitle>Shopping cart</StyledShoppingCartTitle>
       <StyledShoppingCart>
         <StyledShoppingCartHeader>

@@ -48,7 +48,6 @@ const StyledBtn = styled.button`
 `;
 
 const OrderSummary = ({orderSummary, isCheckoutEnabled}) => {
-  console.log(isCheckoutEnabled);
   return (<StyledOrderSummaryWrapper>
     <StyledOrderSummaryTitle> Order summary </StyledOrderSummaryTitle>
     <StyledOrderSummaeyRow>
