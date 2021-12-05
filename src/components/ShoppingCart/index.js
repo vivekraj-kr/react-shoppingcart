@@ -63,8 +63,8 @@ const ShoppingCart = () => {
   }
 
   const getOrderSummary = (subtotal = 0, discount, deliveryCost = 0) => {
-    const percentage = subtotal > discount.minTotal ? discount.discountPercentage : 0;
-    const discountPrice = subtotal / percentage || 0;
+    const percentage = discount.discountPercentage;
+    const discountPrice =  subtotal > discount.minTotal ? (subtotal / percentage) : 0;
     const grantTotal = subtotal - discountPrice + deliveryCost;
     return {
       discountPrice,
