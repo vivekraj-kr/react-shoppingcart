@@ -89,22 +89,24 @@ const ShoppingCart = () => {
 
   const onUpdateQuantity = (id, qty) => {
     let quantity = Number(qty);
-    const updatedProductList = cartData.products.map((product) => {
-      if (product.id === id) {
-        product.quantity = quantity;
-        product.total = product.price * quantity;
-      }
-      return product;
-    });
+    if (quantity || qty === '') {
+      const updatedProductList = cartData.products.map((product) => {
+        if (product.id === id) {
+          product.quantity = quantity;
+          product.total = product.price * quantity;
+        }
+        return product;
+      });
 
-    const subtotal = getSubTotal(updatedProductList);
-    const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
+      const subtotal = getSubTotal(updatedProductList);
+      const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
 
-    setCartData((state) => ({
-      ...state,
-      products: updatedProductList,
-      orderSummary
-    }));
+      setCartData((state) => ({
+        ...state,
+        products: updatedProductList,
+        orderSummary
+      }));
+    }
   }
 
   const onQuantityIncrement = (id) => {
