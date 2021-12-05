@@ -231,7 +231,8 @@ const ShoppingCart = () => {
                   deliveryInfo={cartData.deliveryInfo}
                   onPincodeInputChange={onPincodeInputChange} />
                 <OrderSummary
-                  orderSummary={cartData.orderSummary} />
+                  orderSummary={cartData.orderSummary}
+                  isCheckoutEnabled={cartData.products.length > 0 && cartData.deliveryInfo.isValidPincode} />
               </StyledShoppingCartBottom>
             </>
             :

@@ -40,10 +40,15 @@ const StyledBtn = styled.button`
   border: none;
   border-radius: 35px;
   padding: 20px 40px;
+  
+  &:disabled {
+    background-color: #ccc;
+    cursor: auto;
+  }
 `;
 
-const OrderSummary = ({orderSummary}) => {
-  console.log(orderSummary);
+const OrderSummary = ({orderSummary, isCheckoutEnabled}) => {
+  console.log(isCheckoutEnabled);
   return (<StyledOrderSummaryWrapper>
     <StyledOrderSummaryTitle> Order summary </StyledOrderSummaryTitle>
     <StyledOrderSummaeyRow>
@@ -64,7 +69,7 @@ const OrderSummary = ({orderSummary}) => {
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
       <StyledLink href="https://www.w3.org/Provider/Style/dummy.html"> Continue shopping</StyledLink>
-      <StyledBtn>Checkout</StyledBtn>
+      <StyledBtn disabled={!isCheckoutEnabled}>Checkout</StyledBtn>
     </StyledOrderSummaeyRow>
   </StyledOrderSummaryWrapper>)
 }
