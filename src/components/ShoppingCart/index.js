@@ -66,6 +66,10 @@ const StyledShoppingCartBottom = styled.div`
 const ShoppingCart = () => {
   const [cartData, setCartData] = useState();
 
+  window.addEventListener("beforeunload", () => {
+    window.localStorage.setItem('cartData', JSON.stringify(cartData));
+  })
+
   const getSubTotal = (updatedProducts = []) => {
     let totalPriceList = updatedProducts.map((product) => {
       return product.total;
@@ -194,33 +198,38 @@ const ShoppingCart = () => {
   }
 
   useEffect(() => {
-    let products = data.products;
-    const updatedProducts = products.map((product) =>
-    ({
-      ...product,
-      quantity: 1,
-      total: product.price
-    }))
+    const cartDataFromCache = JSON.parse(window.localStorage.getItem('cartData'));
+    if(cartDataFromCache) {
+      setCartData(cartDataFromCache);
+    } else {
+      let products = data.products;
+      const updatedProducts = products.map((product) =>
+      ({
+        ...product,
+        quantity: 1,
+        total: product.price
+      }))
 
-    const subtotal = getSubTotal(updatedProducts);
-    const orderSummary = getOrderSummary(subtotal, data.discount, 0);
-    const isShowNotifcation = ('discount' in data);
-    setCartData({
-      ...data,
-      products: updatedProducts,
-      orderSummary,
-      deliveryPin: "",
-      isShowNotifcation,
-      deliveryInfo: {
-        freeDelivery: false,
-        isValidPincode: false,
-        isCashOnDelivery: false,
-        estimatedDays: {
-          min: 0,
-          max: 0
+      const subtotal = getSubTotal(updatedProducts);
+      const orderSummary = getOrderSummary(subtotal, data.discount, 0);
+      const isShowNotifcation = ('discount' in data);
+      setCartData({
+        ...data,
+        products: updatedProducts,
+        orderSummary,
+        deliveryPin: "",
+        isShowNotifcation,
+        deliveryInfo: {
+          freeDelivery: false,
+          isValidPincode: false,
+          isCashOnDelivery: false,
+          estimatedDays: {
+            min: 0,
+            max: 0
+          }
         }
-      }
-    });
+      });
+    }
   }, []);
 
   return (
