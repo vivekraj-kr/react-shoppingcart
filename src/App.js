@@ -15,9 +15,13 @@ const GlobalStyle = createGlobalStyle`
     font-size: 14px;
     background-color: #F5F5F5;
     font-family: 'Montserrat', sans-serif;
+
+    @media (max-width: 768px) {
+      background-color: #fff;
+    }
   }
 
-  svg {
+  svg, img {
     max-width: 100%;
   }
 

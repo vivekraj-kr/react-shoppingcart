@@ -8,6 +8,10 @@ const StyledNotification = styled.div`
   color: #fff;
   text-align: center;
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Notification  = ({children}) => {

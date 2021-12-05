@@ -6,6 +6,10 @@ const StyledOrderStatusWrapper = styled.div`
   background-color: #fff;
   border-bottom: solid 1px #00000014;
   padding: 30px 0;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const StyledStatus = styled.div`

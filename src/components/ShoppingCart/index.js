@@ -12,6 +12,10 @@ const StyledShoppingCart = styled.div`
   border: solid 1px #ddd;
   border-radius: 12px;
   margin: 30px auto;
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
 `;
 
 const StyledShoppingCartTitle = styled.h2`
@@ -24,6 +28,10 @@ const StyledShoppingCartHeader = styled.div`
   grid-template-columns: 50% 1fr 1fr 1fr 40px;
   padding: 20px 30px;
   border-bottom: solid 1px #ddd;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const StyledShoppingCartHeaderItem = styled.h3`
@@ -47,7 +55,12 @@ const StyledEmptyCart = styled.div`
 const StyledShoppingCartBottom = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 30px;
   padding: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ShoppingCart = () => {

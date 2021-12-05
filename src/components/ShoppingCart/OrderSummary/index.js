@@ -4,6 +4,10 @@ import styled from 'styled-components';
 const StyledOrderSummaryWrapper = styled.div`
   flex-basis: 400px;
   color: #666;
+
+  @media (max-width: 768px) {
+    flex-basis: auto;
+  }
 `;
 
 const StyledOrderSummaryTitle = styled.h4`

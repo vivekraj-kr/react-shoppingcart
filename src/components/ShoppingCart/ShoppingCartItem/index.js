@@ -7,9 +7,15 @@ const StyledShoppingCartItem = styled.div`
   align-items: center;
   padding: 30px 30px;
   border-bottom: solid 1px #eee;
+  gap: 15px;
 
   &:last-child {
     border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    background-color: #F5F5F5;
   }
 `;
 
@@ -27,6 +33,10 @@ const StyledShoppingCartItemColImg = styled(StyledShoppingCartItemCol)`
   display: flex;
   align-items: center;
   gap: 15px;
+
+  @media (max-width: 768px) {
+    grid-column: 1/span 5;
+  }
 `;
 
 const StyledLabel = styled.label`

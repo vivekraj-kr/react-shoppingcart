@@ -8,13 +8,13 @@ import styled from 'styled-components';
 const StyledFooter = styled.footer`
   background-color: #212121;
   color: #fff;
+  padding: 20px 0;
 `;
 
 const StyledFooterContentWrapper = styled(StyledContainer)`
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
-  padding: 20px 0;
   justify-content: space-between;
 `;
 

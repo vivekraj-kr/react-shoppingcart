@@ -4,6 +4,10 @@ import styled from 'styled-components';
 const StyledDeliveryAvailabilityWrap = styled.div`
   flex-basis: 420px;
   color: #666;
+
+  @media (max-width: 768px) {
+    flex-basis: auto;
+  }
 `;
 
 const StyledTitle = styled.h4`
@@ -38,6 +42,10 @@ const StyledValidatePincode = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 30px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
 `;
 
 const StyledAvailabiltyLabel = styled.label`
@@ -48,6 +56,10 @@ const StyledAvailabiltyLabel = styled.label`
     display: block;
     width: 30px;
     flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      width: 15px;
+    }
   }
 `;
 
