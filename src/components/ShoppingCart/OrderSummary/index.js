@@ -7,7 +7,7 @@ const StyledOrderSummaryWrapper = styled.div`
 `;
 
 const StyledOrderSummaryTitle = styled.h4`
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
 `;
 
@@ -18,10 +18,15 @@ const StyledOrderSummaeyRow = styled.div`
   align-items: center;
 `;
 
-const StyledOrderSummaryLabel = styled.label`
+const StyledGrantTotalLabel = styled.label`
+  font-size: 16px;
+  color: #333;
 `;
 
-const StyledOrderSummaryValue = styled.span`
+const StyledGrantTotal = styled.span`
+  font-weight: 700;
+  font-size: 30px;
+  color: #222;
 `;
 
 const StyledLink = styled.a`
@@ -51,20 +56,20 @@ const OrderSummary = ({orderSummary, isCheckoutEnabled}) => {
   return (<StyledOrderSummaryWrapper>
     <StyledOrderSummaryTitle> Order summary </StyledOrderSummaryTitle>
     <StyledOrderSummaeyRow>
-      <StyledOrderSummaryLabel>Subtotal</StyledOrderSummaryLabel>
-      <StyledOrderSummaryValue> {orderSummary.subtotal}$ </StyledOrderSummaryValue>
+      <label>Subtotal</label>
+      <span> {orderSummary.subtotal}$ </span>
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
-      <StyledOrderSummaryLabel>Total discount</StyledOrderSummaryLabel>
-      <StyledOrderSummaryValue> -{orderSummary.discountPrice}$ </StyledOrderSummaryValue>
+      <label>Total discount</label>
+      <span> -{orderSummary.discountPrice}$ </span>
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
-      <StyledOrderSummaryLabel>Standard shipping</StyledOrderSummaryLabel>
-      <StyledOrderSummaryValue> {orderSummary.deliveryCost === 0? "Free": `${orderSummary.deliveryCost}$`} </StyledOrderSummaryValue>
+      <label>Standard shipping</label>
+      <span> {orderSummary.deliveryCost === 0? "Free": `${orderSummary.deliveryCost}$`} </span>
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
-      <StyledOrderSummaryLabel>Order total</StyledOrderSummaryLabel>
-      <StyledOrderSummaryValue> {orderSummary.grantTotal}$ </StyledOrderSummaryValue>
+      <StyledGrantTotalLabel>Order total</StyledGrantTotalLabel>
+      <StyledGrantTotal> {orderSummary.grantTotal} $ </StyledGrantTotal>
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
       <StyledLink href="https://www.w3.org/Provider/Style/dummy.html"> Continue shopping</StyledLink>
