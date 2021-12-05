@@ -148,7 +148,7 @@ const ShoppingCart = () => {
   }
 
   const onPincodeInputChange = (pincode) => {
-    const availablePincodes = cartData.pincode && Object.keys(cartData.pincode) || [];
+    const availablePincodes = (cartData.pincode && Object.keys(cartData.pincode)) || [];
     const isValidPincode = availablePincodes.includes(pincode);
     let isCashOnDelivery;
     let estimatedDays;
