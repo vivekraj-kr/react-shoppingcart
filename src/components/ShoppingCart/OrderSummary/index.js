@@ -68,7 +68,7 @@ const OrderSummary = ({orderSummary, isCheckoutEnabled}) => {
     </StyledOrderSummaeyRow>
     <StyledOrderSummaeyRow>
       <StyledLink href="https://www.w3.org/Provider/Style/dummy.html"> Continue shopping</StyledLink>
-      <StyledBtn disabled={!isCheckoutEnabled}>Checkout</StyledBtn>
+      <StyledBtn disabled={!isCheckoutEnabled || orderSummary.subtotal === 0}>Checkout</StyledBtn>
     </StyledOrderSummaeyRow>
   </StyledOrderSummaryWrapper>)
 }
