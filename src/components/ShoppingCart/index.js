@@ -52,11 +52,37 @@ const StyledShoppingCartBottom = styled.div`
 const ShoppingCart = () => {
   const [cartData, setCartData] = useState();
 
+  const getSubTotal = (updatedProducts = []) => {
+    let totalPriceList = updatedProducts.map((product) => {
+      return product.total;
+    }) || [];
+
+    return totalPriceList.length > 0 ?
+      totalPriceList.reduce((perveiousPrice, currentPrice) => perveiousPrice + currentPrice)
+      : 0
+  }
+
+  const getOrderSummary = (subtotal = 0, discount, deliveryCost = 0) => {
+    const percentage = subtotal > discount.minTotal ? discount.discountPercentage : 0;
+    const discountPrice = subtotal / percentage || 0;
+    const grantTotal = subtotal - discountPrice + deliveryCost;
+    return {
+      discountPrice,
+      deliveryCost,
+      grantTotal,
+      subtotal
+    }
+  };
+
   const onRemoveProduct = (id) => {
     const updatedProducts = cartData.products.filter((product) => product.id !== id);
+    const subtotal = getSubTotal(updatedProducts);
+    const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
+
     setCartData((state) => ({
       ...state,
-      products: updatedProducts
+      products: updatedProducts,
+      orderSummary
     }));
   };
 
@@ -70,9 +96,13 @@ const ShoppingCart = () => {
       return product;
     });
 
+    const subtotal = getSubTotal(updatedProductList);
+    const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
+
     setCartData((state) => ({
       ...state,
-      products: updatedProductList
+      products: updatedProductList,
+      orderSummary
     }));
   }
 
@@ -86,9 +116,13 @@ const ShoppingCart = () => {
       return product;
     });
 
+    const subtotal = getSubTotal(updatedProductList);
+    const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
+
     setCartData((state) => ({
       ...state,
-      products: updatedProductList
+      products: updatedProductList,
+      orderSummary
     }));
   }
 
@@ -102,9 +136,13 @@ const ShoppingCart = () => {
       return product;
     });
 
+    const subtotal = getSubTotal(updatedProductList);
+    const orderSummary = getOrderSummary(subtotal, cartData.discount, 0);
+
     setCartData((state) => ({
       ...state,
-      products: updatedProductList
+      products: updatedProductList,
+      orderSummary
     }));
   }
 
@@ -114,11 +152,16 @@ const ShoppingCart = () => {
     let isCashOnDelivery;
     let estimatedDays;
     let freeDelivery;
+    let deliveryCost = 0;
     if (isValidPincode) {
-      freeDelivery = cartData.pincode[pincode].deliveryPrice === 0;
+      deliveryCost = cartData.pincode[pincode].deliveryPrice;
+      freeDelivery = deliveryCost === 0;
       isCashOnDelivery = cartData.pincode[pincode].cashOnDelivery;
       estimatedDays = cartData.pincode[pincode].estimatedDays;
     }
+
+    const subtotal = getSubTotal(cartData.products);
+    const orderSummary = getOrderSummary(subtotal, cartData.discount, deliveryCost);
 
     const deliveryInfo = {
       freeDelivery,
@@ -129,7 +172,8 @@ const ShoppingCart = () => {
     setCartData((state) => ({
       ...state,
       deliveryPin: pincode,
-      deliveryInfo
+      deliveryInfo,
+      orderSummary
     }));
   }
 
@@ -140,11 +184,15 @@ const ShoppingCart = () => {
       ...product,
       quantity: 1,
       total: product.price
-    })
-    )
+    }))
+
+    const subtotal = getSubTotal(updatedProducts);
+    const orderSummary = getOrderSummary(subtotal, data.discount, 0);
+
     setCartData({
       ...data,
       products: updatedProducts,
+      orderSummary,
       deliveryPin: "",
       deliveryInfo: {
         freeDelivery: false,
@@ -169,7 +217,7 @@ const ShoppingCart = () => {
           <StyledShoppingCartHeaderItem> Subtotal </StyledShoppingCartHeaderItem>
         </StyledShoppingCartHeader>
         <StyledShoppingCartBody>
-          {cartData && cartData.products && cartData.products.length > 1 ?
+          {cartData && cartData.products && cartData.products.length > 0 ?
             <>
               <ShoppingCartItem
                 cartItmes={cartData.products}
@@ -182,7 +230,8 @@ const ShoppingCart = () => {
                   deliveryPin={cartData.deliveryPin}
                   deliveryInfo={cartData.deliveryInfo}
                   onPincodeInputChange={onPincodeInputChange} />
-                <OrderSummary />
+                <OrderSummary
+                  orderSummary={cartData.orderSummary} />
               </StyledShoppingCartBottom>
             </>
             :
